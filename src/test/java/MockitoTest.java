@@ -5,14 +5,12 @@ import org.junit.jupiter.api.Test;
 import stub.GradeService;
 import stub.GradeSystem;
 
+import java.util.Arrays;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
 public class MockitoTest {
-
-    @BeforeEach
-    void setUp(){
-
-    }
 
     @Test
     public void shouldVerifyDoorIsClosed(){
@@ -25,10 +23,11 @@ public class MockitoTest {
     @Test
     public void shouldReturn90WhenCalculateStudentAverageGradeAndGradeIs80And90And100(){
 
-        GradeService gradeService = mock(GradeService.class);
-        when(gradeService.calculateAverageGrades(1)).thenReturn(100.0);
-        gradeService.calculateAverageGrades(1);
-        verify(gradeService).calculateAverageGrades(1);
+        GradeSystem gradeSystem = mock(GradeSystem.class);
+        GradeService gradeService = new GradeService(gradeSystem);
+        when(gradeSystem.gradesFor(1)).thenReturn(Arrays.asList(90.0, 95.0, 100.0));
+        double result = gradeService.calculateAverageGrades(1);
+        assertEquals(95.0,result);
 
 
     }
